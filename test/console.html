@@ -92,6 +92,37 @@ var debugTiming = false,
     time = dagre.util.notime,
     lastDotStr = "",
     input = document.querySelector("#inputPanel textarea");
+function renderGraph() {
+    const graph = new dagre.graphlib.Graph();
+    graph.setDefaultEdgeLabel(function() { return {}; });
+    graph.setGraph({
+        rankdir: "LR",
+        ranker: "tight-tree",
+        /*
+        nodesep: NODE_SEP,
+        ranksep: RANK_SEP,
+        edgesep: EDGE_SEP,
+        */
+    });
+    graph.setNode("1", { label: "1"});
+
+    graph.setNode("11", { label: "11"});
+    graph.setNode("111", { label: "111"});
+    graph.setNode("112", { label: "112"});
+    graph.setNode("113", { label: "113"});
+
+    graph.setNode("12", { label: "12"});
+    graph.setNode("13", { label: "13"});
+
+    graph.setEdge("1", "11");
+    graph.setEdge("1", "12");
+    graph.setEdge("1", "13");
+
+    graph.setEdge("11", "111");
+    graph.setEdge("11", "112");
+    graph.setEdge("11", "113");
+    render(graph);
+}
 function renderDot() {
   debugTiming = d3.select("#timing").property("checked"),
   time = debugTiming ? dagre.util.time : dagre.util.notime;
@@ -241,4 +272,5 @@ function edgeObjToId(e) {
 function id(str) {
   return str ? str.replace(/[^a-zA-z0-9-]/g, "_") : "";
 }
+document.addEventListener("DOMContentLoaded", renderGraph);
 </script>
